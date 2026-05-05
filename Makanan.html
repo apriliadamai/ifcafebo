@@ -39,7 +39,7 @@
 
             <!--Menu Makanan 1-->
             <div onclick="addToCart('Nasi Goreng', 20000)"
-            class="cursor-pointer shadow-xl rounded-xl p-5 text-center hover:scale-150 transition">
+            class="cursor-pointer shadow-xl rounded-xl p-5 text-center hover:scale-105 transition">
 
             <img src=""
             class="h-48 w-full object-cover mb-4 rounded">
@@ -49,12 +49,65 @@
             <p class="mt-2 font-bold text-green-700">Rp 20.000</p>
             </div>
 
-    <!--Menu Makanan 2-->
-    <div onclick="addToChart('Chicken Katsu', 25000)"
-    class="">
-    </div>
+    
+            <!--Menu Makanan 2-->
+            <div onclick="addToCart('Chicken Katsu', 25000)"
+             class="cursor-pointer shadow-xl rounded-xl p-5 text-center hover:scale-105 transition">
+             
+             <img src=""
+             class="h-48 w-full object-cover mb-4 rounded">
+
+             <h2 class="text-xl font-semibold">Chicken Katasu</h2>
+             <p class="text-gray-500">Ayam crispy dengan saus khas jepang</p>
+             <p class="mt-2 font-bold text-green-700">Rp 25.000</p>
+            </div>
         </div>
     </div>
+
+    <!--KERANJANG-->
+    <div class="fixed bottom-5 right-5 bg-white shadow-xl p-5 rounded-xl w-64">
+        <h2 class="font-bold mb-2">keranjang</h2>
+        <ul id="cart-list" class="text-sm mb-2"></ul>
+        <p class="font-semibold">Total:Rp<span id="total">0</span></p>
+    </div>
+
+    <!--SCRIPT-->
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(name,price){
+            cart.push({name,price});
+            total+= price;
+            updateCart();
+        }
+
+        function updateCart(){
+            const list = document.getElementById("cart-list");
+            const totalEI = document.getElementById("total");
+
+            list.innerHTML = "";
+
+            cart.forEach((item, index) =>{
+                let li = document.createElement("li");
+
+                li.innerHTML = `
+                    ${item.name} - Rp.${item.price}
+                    <button onclick="removeItem(${index})"
+                    class="ml-2 text-red-500 hover:text-red-700">❌</button>
+                `;
+                list.appendChild(li);
+
+            });
+            totalEI.textContent = total;
+
+            window.removeItem = function(index){
+                total -= cart[index].price;
+                cart.splice(index, 1);
+                updateCart();
+            }
+        }
+    </script>
 
 </body>
 </html> 
