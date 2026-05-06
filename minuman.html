@@ -50,16 +50,40 @@
              <p class="mt-2 font-bold text-green-700">Rp 10.000</p>
             </div>
 
-            <!--MINUMAN 2-->
+            <!-- Menu Minuman 2-->
             <div onclick="addToCart('LATTE',15000)" 
-            class="cursor-pointer shadow-xl rounded-xl p-5 text-center hover:scale-105 transition">
-            <img src=""
-            class="h-48 w-full object-cover mb-4 rounded">
+             class="cursor-pointer shadow-xl rounded-xl p-5 text-center hover:scale-105 transition">
+             <img src="latte.jpeg"
+             class="h-48 w-full object-cover mb-4 rounded">
 
-            <h2 class="text-xl font-semibold">LATTE</h2>
-            <p class="text-gray-500">Teh creamy Khas Asia</p>
-            <p class="mt-2 font-bold text-green-700">Rp 15.0000</p>
-        </div>
+             <h2 class="text-xl font-semibold">LATTE</h2>
+             <p class="text-gray-500">Teh creamy Khas Asia</p>
+             <p class="mt-2 font-bold text-green-700">Rp 15.0000</p>
+            </div>
+
+            <!--Menu Minuman 3-->
+            <div onclick="addToCart('Es Jeruk',10000)"
+             class="cursor-pointer shadow-xl rounded-xl p-5 text-center hover:scale-105 transition">
+            
+             <img src="ES-JERUK.jpg"
+             class="h-48 w-full object-cover mb-4 rounded">
+
+             <h2 class="text-xl font-semibold">Es Jeruk</h2>
+             <p class="text-gray-500">Jeruk Asli dari Australia</p>
+             <p class="mt-2 font-bold text-green-700">Rp 12.000</p>
+            </div>
+
+            <!--Menu Minuman 4-->
+            <div onclick="addToCart('Americano',8000)"
+             class="cursor-pointer shadow-xl rounded-xl p-5 text-center hover:scale-105 transition">
+            
+             <img src="Americano.jpg"
+             class="h-48 w-full object-cover mb-4 rounded">
+
+             <h2 class="text-xl font-semibold">Americano</h2>
+             <p class="text-gray-500">Kopi Pagi idamanmu</p>
+             <p class="mt-2 font-bold text-green-700">Rp 8.000</p>
+            </div>
     </div>
 </div>
 
@@ -87,7 +111,7 @@
 
     function updateCart(){
         const list = document.getElementById("cart-list");
-        const totalEI = document.getElementById("total");
+        const totalEI = document.getElementById("Total");
 
         list.innerHTML = "";
         let total = 0;
@@ -117,7 +141,7 @@
         totalEI.textContent = total;
     }
 
-    function increaseQty(index){
+    function decreaseQty(index){
         if (cart[index].qty > 1){
         cart[index].qty--;
     }else{
