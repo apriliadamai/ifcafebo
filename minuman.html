@@ -33,7 +33,7 @@
 
     <!--CONTENT-->
     <div class="pt-32 px-10">
-
+        
         <h1 class="text-4xl font-bold text-center text-amber-800">MENU MINUMAN</h1>
 
         <div id="minuman" class="grid md:grid-cols-2 gap-10">
@@ -49,8 +49,88 @@
              <p class="text-gray-500">Teh yang diambil dari salatiga</p>
              <p class="mt-2 font-bold text-green-700">Rp 10.000</p>
             </div>
+
+            <!--MINUMAN 2-->
+            <div onclick="addToCart('LATTE',15000)" 
+            class="cursor-pointer shadow-xl rounded-xl p-5 text-center hover:scale-105 transition">
+            <img src=""
+            class="h-48 w-full object-cover mb-4 rounded">
+
+            <h2 class="text-xl font-semibold">LATTE</h2>
+            <p class="text-gray-500">Teh creamy Khas Asia</p>
+            <p class="mt-2 font-bold text-green-700">Rp 15.0000</p>
         </div>
     </div>
+</div>
 
+<!--KERANJANG-->
+<div class="fixed bottom-5 right-5 bg-white shadow-xl p-5 rounded-xl w-72">
+    <h2 class="font-bold mb-3">🛒keranjang</h2>
+    <ul id="cart-list" class="text-sm mb-3 space-y-2"></ul>
+    <p class="font-semibold text-lg">Total:Rp <span id="Total">0</span></p>
+</div>
+
+<!--SCRIPT-->
+<script>
+    let cart = [];
+    function addToCart(name,price){
+        let item = cart.find(i=>i.name === name);
+
+        if (item){
+            item.qty++;
+        } else{
+            cart.push({name,price,qty:1})
+        }
+
+        updateCart();
+    } 
+
+    function updateCart(){
+        const list = document.getElementById("cart-list");
+        const totalEI = document.getElementById("total");
+
+        list.innerHTML = "";
+        let total = 0;
+
+        cart.forEach((item,index)=>{
+            total += item.price *item.qty;
+
+            let li = document.createElement("li");
+            li.innerHTML =`
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-semibold">${item.name}</p>
+                        <p>Rp ${item.price} x ${item.qty}</p>
+                    </div> 
+                    
+                    <div class= "flex items-center gap-2">
+                        <button onclick="decreaseQty(${index})" class="bg-gray-200 px-2 rounded">-</button>
+                        <span>${item.qty}</span>
+                        <button onclick="removeitem(${index})" class="text-red-500 font-bold">❌</button>
+                    </div>
+                </div>
+
+            `;
+            list.appendChild(li);
+        });
+
+        totalEI.textContent = total;
+    }
+
+    function increaseQty(index){
+        if (cart[index].qty > 1){
+        cart[index].qty--;
+    }else{
+        cart.splice(index,1);
+    }
+    updateCart();
+}
+
+function removeitem(index){
+    cart.splice(index,1);
+    updateCart();
+
+}
+</script>
 </body>
 </html>
