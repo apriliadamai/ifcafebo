@@ -1,90 +1,302 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>WELCOME TO CAFE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kopi Nusantara</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{
+  colors:{cream:'#F5EFE0',coffee:'#3B2314',espresso:'#1A0E08',gold:'#C9973A',latte:'#8B5E3C',foam:'#FBF5EB',sage:'#7A8C6E',terracotta:'#C2623B',bar:'#FFF8F0',mint:'#E8F0E4'},
+  fontFamily:{serif:['"Playfair Display"','serif'],sans:['"DM Sans"','sans-serif']},
+  keyframes:{
+    slideUp:{from:{opacity:'0',transform:'translateY(24px)'},to:{opacity:'1',transform:'translateY(0)'}},
+    slideIn:{from:{opacity:'0',transform:'translateX(40px)'},to:{opacity:'1',transform:'translateX(0)'}},
+    fadeIn:{from:{opacity:'0'},to:{opacity:'1'}},
+    float:{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-8px)'}},
+    pulseSlow:{'0%,100%':{opacity:'.5'},'50%':{opacity:'1'}},
+  },
+  animation:{
+    slideUp:'slideUp .3s ease',slideIn:'slideIn .3s ease',fadeIn:'fadeIn .5s ease',
+    float:'float 3s ease-in-out infinite',pulseSlow:'pulseSlow 2.5s ease-in-out infinite',
+  }
+}}}
+</script>
 </head>
-<body class="bg-white font-sans">
+<body class="bg-foam text-espresso font-sans overflow-x-hidden">
 
-    <!--Navbar-->
-    <div class ="w-full bg-white border-b-4 border-green-800 fixed">
+<!-- Toast -->
+<div class="fixed top-6 right-6 z-[200] flex flex-col gap-2" id="toast-container"></div>
 
-        <div class="flex items-center justify-between px-10 py-5">
-        
-    <!--LEFT-->
-    <div class="flex items-center gap-3">
-        <img src="logo.png" class="h-12">
-        <span class="text-2xl font-semibold text-amber-800">WELCOME TO CAFE</span>
+<!-- ======== HERO ======== -->
+<section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center px-8 relative"
+  style="background:linear-gradient(160deg,rgba(26,14,8,.92),rgba(59,35,20,.78) 50%,rgba(26,14,8,.92)),url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1800&q=80') center/cover no-repeat">
+
+  <div class="absolute top-10 left-10 w-16 h-16 rounded-full border border-gold/20 animate-pulseSlow pointer-events-none hidden md:block"></div>
+  <div class="absolute bottom-28 right-14 w-20 h-20 rounded-full border border-gold/10 animate-pulseSlow hidden md:block" style="animation-delay:1s"></div>
+  <div class="absolute top-1/4 right-[15%] w-2 h-2 rounded-full bg-gold/30 animate-pulseSlow hidden md:block" style="animation-delay:.5s"></div>
+
+  <span class="inline-block text-[0.65rem] tracking-[0.35em] uppercase text-gold/90 border border-gold/30 px-5 py-1.5 rounded-full mb-6 font-medium">
+    Buka 08.00 – 22.00 WIB
+  </span>
+
+  <h1 class="font-serif text-cream leading-[1.05] mb-4" style="font-size:clamp(2.6rem,7vw,4.8rem)">
+    Kopi <em class="text-gold not-italic italic">Nusantara</em>
+  </h1>
+
+  <p class="text-cream/60 text-base md:text-lg font-light max-w-md leading-relaxed mb-10">
+    Cafe &amp; Bistro — Cita rasa autentik dalam suasana yang hangat dan penuh kenangan.
+  </p>
+
+  <div class="flex gap-4 flex-wrap justify-center">
+    <button onclick="handleReservasiClick()" class="bg-gold text-espresso font-sans font-bold text-[0.8rem] tracking-[0.12em] uppercase px-10 py-4 rounded-lg border-none cursor-pointer transition-all hover:bg-cream hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(201,151,58,.3)]">
+      🗓&ensp;Reservasi Meja
+    </button>
+    <button onclick="scrollToSection('section-dinein')" class="bg-transparent text-cream font-sans font-semibold text-[0.72rem] tracking-[0.12em] uppercase px-10 py-4 rounded-lg border-2 border-cream/30 cursor-pointer transition-all hover:border-gold hover:text-gold hover:bg-cream/5">
+      🍽&ensp;Dine In
+    </button>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 cursor-pointer text-cream/30 animate-float"
+    onclick="scrollToSection('section-reservasi')">
+    <span class="text-[0.6rem] tracking-[0.15em] uppercase">Scroll</span>
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+  </div>
+</section>
+
+<!-- ======== RESERVASI ======== -->
+<section id="section-reservasi" class="py-16 px-4 opacity-0 translate-y-[30px] transition-all duration-600">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="text-center mb-10">
+      <span class="inline-block text-[0.65rem] tracking-[0.3em] uppercase text-gold font-semibold mb-3">Reservasi</span>
+      <h2 class="font-serif text-[clamp(1.75rem,4vw,2.5rem)] text-coffee mb-2">Pesan Meja Anda</h2>
+      <p class="text-latte text-sm max-w-md mx-auto">Pilih tanggal, waktu, dan meja favorit Anda. Pre-order menu opsional agar siap saat tiba.</p>
     </div>
 
-    <!--MENU-->
-    <ul class="flex gap-10 text-amber-800 text-lg">
-        <li><a href="#" class="hover:text-green-800">HOME</a></li>
-        <li><a href="makanan.html" class="hover:text-green-800">MENU MAKANAN</a></li>
-        <li><a href="minuman.html" class="hover:text-green-800">MENU MINUMAN</a></li>
-        <li><a href="download.html" class="hover:text-green-800">DOWNLOAD APP</a></li>
-        <li><a href="location.html" class="hover:text-green-800">LOCATION CAFE</a></li>
-    </ul>
+    <div class="flex items-center justify-center gap-2 mb-10 text-xs flex-wrap">
+      <span id="step1" class="w-7 h-7 rounded-full inline-flex items-center justify-center font-bold text-xs bg-gold text-white shadow-[0_2px_8px_rgba(201,151,58,.3)]">1</span>
+      <span class="text-latte text-[0.7rem]">Waktu</span>
+      <span class="text-gold/30 mx-0.5">›</span>
+      <span id="step2" class="w-7 h-7 rounded-full inline-flex items-center justify-center font-bold text-xs bg-coffee/10 text-latte transition-all duration-300">2</span>
+      <span class="text-latte text-[0.7rem]">Meja</span>
+      <span class="text-gold/30 mx-0.5">›</span>
+      <span id="step3" class="w-7 h-7 rounded-full inline-flex items-center justify-center font-bold text-xs bg-coffee/10 text-latte transition-all duration-300">3</span>
+      <span class="text-latte text-[0.7rem]">Menu</span>
+      <span class="text-gold/30 mx-0.5">›</span>
+      <span id="step4" class="w-7 h-7 rounded-full inline-flex items-center justify-center font-bold text-xs bg-coffee/10 text-latte transition-all duration-300">4</span>
+      <span class="text-latte text-[0.7rem]">Bayar DP</span>
+    </div>
 
+    <!-- Step 1 -->
+    <div id="res-step1">
+      <h3 class="font-serif text-xl text-coffee mb-1">Pilih Tanggal &amp; Waktu</h3>
+      <p class="text-latte text-sm mb-6">Reservasi hanya bisa untuk hari ini atau setelahnya.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mb-4">
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">Tanggal</label><input type="date" id="res-date" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none read-only:bg-sage/5 read-only:cursor-default"></div>
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">Waktu Kedatangan</label><select id="res-time" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none"><option value="">Pilih waktu</option></select></div>
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">Jumlah Tamu</label><select id="res-guests" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none"><option>1 orang</option><option selected>2 orang</option><option>3 orang</option><option>4 orang</option><option>5 orang</option><option>6+ orang</option></select></div>
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">Durasi</label><select id="res-duration" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none"><option value="1">1 jam</option><option value="2" selected>2 jam</option><option value="3">3 jam</option><option value="4">4 jam</option></select></div>
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">Nama Lengkap</label><input type="text" id="res-name" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none read-only:bg-sage/5 read-only:cursor-default" readonly></div>
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">No. HP</label><input type="tel" id="res-phone" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none read-only:bg-sage/5 read-only:cursor-default" readonly></div>
+      </div>
+      <p class="text-[0.7rem] text-latte/60 mb-5">💡 Nama &amp; HP diisi otomatis dari akun Anda. <button onclick="handleReservasiClick()" class="text-gold underline cursor-pointer bg-transparent border-none font-sans text-[0.7rem]">Ganti akun?</button></p>
+      <button onclick="goToStep2()" class="bg-coffee text-cream font-sans font-semibold text-[0.72rem] tracking-[0.12em] uppercase px-10 py-3.5 rounded-lg border-none cursor-pointer transition-all hover:bg-latte hover:-translate-y-0.5">Lanjut → Pilih Meja</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="res-step2" class="hidden">
+      <div class="flex items-center gap-3 mb-5 flex-wrap">
+        <button onclick="backToStep1()" class="bg-transparent text-latte font-sans font-semibold text-[0.72rem] tracking-[0.08em] uppercase px-3 py-1.5 rounded-md border-[1.5px] border-coffee/15 cursor-pointer transition-all hover:border-gold hover:text-gold hover:bg-gold/5">← Ubah Waktu</button>
+        <div><h3 class="font-serif text-xl text-coffee">Pilih Meja</h3><p id="floor-subtitle" class="text-latte text-xs mt-0.5"></p></div>
+      </div>
+      <div class="flex gap-4 flex-wrap mb-3 text-xs text-latte">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-sage inline-block"></span>Tersedia</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-gold inline-block"></span>Dipilih</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-terracotta inline-block"></span>Direservasi</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-latte inline-block"></span>Sedang Terpakai</span>
+      </div>
+      <div id="timeline-info" class="hidden bg-gold/[0.08] border border-gold/25 rounded-lg px-4 py-3 mb-3 text-sm text-coffee"></div>
+      <div class="relative w-full min-h-[540px] border-2 border-coffee/8 rounded-xl overflow-hidden" id="cafeFloor"
+        style="background:repeating-linear-gradient(0deg,rgba(59,35,20,.04) 0px,transparent 1px,transparent 49px,rgba(59,35,20,.04) 50px),repeating-linear-gradient(90deg,rgba(59,35,20,.04) 0px,transparent 1px,transparent 49px,rgba(59,35,20,.04) 50px),#FFF8F0"></div>
+      <div id="selected-table-info" class="hidden mt-3 px-4 py-3 bg-mint border border-sage/30 rounded-lg text-sm text-coffee"></div>
+      <button id="btn-to-step3" onclick="goToStep3()" class="hidden mt-4 bg-coffee text-cream font-sans font-semibold text-[0.72rem] tracking-[0.12em] uppercase px-10 py-3.5 rounded-lg border-none cursor-pointer transition-all hover:bg-latte hover:-translate-y-0.5">Lanjut → Pesan Menu</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="res-step3" class="hidden">
+      <div class="flex items-center gap-3 mb-5">
+        <button onclick="backToStep2()" class="bg-transparent text-latte font-sans font-semibold text-[0.72rem] tracking-[0.08em] uppercase px-3 py-1.5 rounded-md border-[1.5px] border-coffee/15 cursor-pointer transition-all hover:border-gold hover:text-gold hover:bg-gold/5">← Ubah Meja</button>
+        <div><h3 class="font-serif text-xl text-coffee">Pre-Order Menu</h3><p class="text-latte text-xs mt-0.5">Opsional — pesanan siap saat Anda tiba.</p></div>
+      </div>
+      <div id="menu-section-res"></div>
+      <div id="order-summary-res" class="hidden mt-5 px-5 py-4 bg-coffee/[0.03] border border-dashed border-coffee/15 rounded-lg text-sm"></div>
+      <button onclick="goToStep4()" class="mt-5 bg-coffee text-cream font-sans font-semibold text-[0.72rem] tracking-[0.12em] uppercase px-10 py-3.5 rounded-lg border-none cursor-pointer transition-all hover:bg-latte hover:-translate-y-0.5">Lanjut → Pembayaran DP</button>
+    </div>
+
+    <!-- Step 4 -->
+    <div id="res-step4" class="hidden">
+      <div class="flex items-center gap-3 mb-5">
+        <button onclick="backToStep3Res()" class="bg-transparent text-latte font-sans font-semibold text-[0.72rem] tracking-[0.08em] uppercase px-3 py-1.5 rounded-md border-[1.5px] border-coffee/15 cursor-pointer transition-all hover:border-gold hover:text-gold hover:bg-gold/5">← Ubah Menu</button>
+        <h3 class="font-serif text-xl text-coffee">Pembayaran DP 35%</h3>
+      </div>
+      <div id="deposit-calc" class="bg-gradient-to-br from-gold/[0.08] to-gold/[0.03] border-[1.5px] border-dashed border-gold rounded-xl p-5 mb-6"></div>
+      <h4 class="text-sm font-semibold text-coffee mb-3">Pilih Metode Pembayaran DP</h4>
+      <div id="payment-res" class="mb-5"></div>
+      <button onclick="confirmReservation()" class="bg-gold text-espresso font-sans font-bold text-[0.8rem] tracking-[0.12em] uppercase px-12 py-4 rounded-lg border-none cursor-pointer transition-all hover:bg-cream hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(201,151,58,.3)]">✓ Konfirmasi &amp; Bayar DP</button>
+    </div>
+
+    <!-- Success -->
+    <div id="res-success" class="hidden text-center py-16 animate-fadeIn">
+      <div class="w-16 h-16 rounded-full bg-sage/20 flex items-center justify-center mx-auto mb-5"><span class="text-3xl text-sage">✓</span></div>
+      <h2 class="font-serif text-3xl text-coffee mb-4">Reservasi Berhasil!</h2>
+      <div id="res-success-detail" class="text-latte text-sm leading-8 max-w-sm mx-auto"></div>
+      <button onclick="resetReservasi()" class="mt-8 bg-coffee text-cream font-sans font-semibold text-[0.72rem] tracking-[0.12em] uppercase px-8 py-3 rounded-lg border-none cursor-pointer transition-all hover:bg-latte hover:-translate-y-0.5">Buat Reservasi Baru</button>
+    </div>
+  </div>
+</section>
+
+<div class="h-px max-w-4xl mx-auto bg-gradient-to-r from-transparent via-coffee/12 to-transparent"></div>
+
+<!-- ======== DINE IN ======== -->
+<section id="section-dinein" class="py-16 px-4 opacity-0 translate-y-[30px] transition-all duration-600">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="text-center mb-10">
+      <span class="inline-block text-[0.65rem] tracking-[0.3em] uppercase text-gold font-semibold mb-3">Dine In</span>
+      <h2 class="font-serif text-[clamp(1.75rem,4vw,2.5rem)] text-coffee mb-2">Pesan Langsung dari Meja</h2>
+      <p class="text-latte text-sm max-w-md mx-auto">Scan QR, pilih menu, dan pesanan langsung diproses ke dapur.</p>
+    </div>
+
+    <div id="dine-content">
+      <div class="flex border-b-[2.5px] border-coffee/8 mb-6 overflow-x-auto" id="dine-tabs">
+        <div class="tab-btn py-2.5 px-6 border-b-[2.5px] border-b-gold text-coffee cursor-pointer text-[0.72rem] tracking-[0.1em] uppercase font-medium whitespace-nowrap" onclick="switchDineTab(this,'kopi')">☕ Kopi</div>
+        <div class="tab-btn py-2.5 px-6 border-b-[2.5px] border-b-transparent text-latte cursor-pointer text-[0.72rem] tracking-[0.1em] uppercase font-medium whitespace-nowrap transition-colors hover:text-coffee" onclick="switchDineTab(this,'minuman')">🥤 Minuman</div>
+        <div class="tab-btn py-2.5 px-6 border-b-[2.5px] border-b-transparent text-latte cursor-pointer text-[0.72rem] tracking-[0.1em] uppercase font-medium whitespace-nowrap transition-colors hover:text-coffee" onclick="switchDineTab(this,'makanan')">🍽 Makanan</div>
+        <div class="tab-btn py-2.5 px-6 border-b-[2.5px] border-b-transparent text-latte cursor-pointer text-[0.72rem] tracking-[0.1em] uppercase font-medium whitespace-nowrap transition-colors hover:text-coffee" onclick="switchDineTab(this,'dessert')">🍰 Dessert</div>
+      </div>
+
+      <div class="flex justify-end mb-4 sm:hidden">
+        <button onclick="scrollToDineCart()" class="bg-coffee text-cream text-[0.68rem] font-semibold px-4 py-2 rounded-full cursor-pointer border-none">🛒 Pesanan: <span id="cart-badge-mobile" class="bg-gold text-espresso w-5 h-5 rounded-full inline-flex items-center justify-center text-[0.65rem] font-bold">0</span></button>
+      </div>
+
+      <div id="dine-menu-grid" class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+      <div id="dine-cart-section" class="hidden mt-12">
+        <div class="h-px mb-10 bg-gradient-to-r from-transparent via-coffee/12 to-transparent"></div>
+        <div class="flex items-center justify-between mb-5">
+          <h3 class="font-serif text-2xl text-coffee">Ringkasan Pesanan</h3>
+          <span id="cart-badge" class="bg-gold text-espresso w-7 h-7 rounded-full inline-flex items-center justify-center text-xs font-bold">0</span>
         </div>
+        <div id="dine-cart-list" class="bg-bar border border-coffee/8 rounded-xl px-5 py-5 mb-6 text-sm"></div>
+        <h4 class="font-serif text-xl text-coffee mb-3">Metode Pembayaran</h4>
+        <div id="payment-dine" class="mb-6"></div>
+        <button onclick="confirmDineIn()" class="bg-gold text-espresso font-sans font-bold text-[0.8rem] tracking-[0.12em] uppercase px-12 py-4 rounded-lg border-none cursor-pointer transition-all hover:bg-cream hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(201,151,58,.3)]">✓ Konfirmasi Pesanan</button>
+      </div>
+
+      <div id="dine-success" class="hidden text-center py-16 animate-fadeIn">
+        <div class="w-16 h-16 rounded-full bg-sage/20 flex items-center justify-center mx-auto mb-5"><span class="text-3xl text-sage">✓</span></div>
+        <h2 class="font-serif text-3xl text-coffee mb-4">Pesanan Diterima!</h2>
+        <p id="dine-success-detail" class="text-latte text-sm leading-8 max-w-sm mx-auto"></p>
+        <button onclick="resetDineIn()" class="mt-8 bg-coffee text-cream font-sans font-semibold text-[0.72rem] tracking-[0.12em] uppercase px-8 py-3 rounded-lg border-none cursor-pointer transition-all hover:bg-latte hover:-translate-y-0.5">Tambah Pesanan</button>
+      </div>
     </div>
-    
-    <!--HERO-->
-    <div class="flex items-center justify-between px-16 py-16 bg-stone-100">
-    <!--TEXT-->
-    <div class="w-[45%]">
-        <h1 class="text-4xl font-bold text-green-800 mb-5">
-            Grind The Essentials
-        </h1>
+  </div>
+</section>
 
-        <p class="text-amber-800">
-            Dibuat dari biji kopi indonesia pilihan untuk pengalaman minum kopi terbaik setiap hari
-        </p>
+<div class="h-px max-w-4xl mx-auto bg-gradient-to-r from-transparent via-coffee/12 to-transparent"></div>
+
+<!-- ======== FOOTER ======== -->
+<footer id="home-footer" class="bg-coffee text-cream/80 pt-0 opacity-0 translate-y-[30px] transition-all duration-600">
+  <div class="h-1 bg-gradient-to-r from-transparent via-gold/40 to-transparent"></div>
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div>
+        <h3 class="font-serif text-gold text-xl mb-4">Tentang Kami</h3>
+        <p class="text-cream/45 text-sm leading-relaxed mb-5">Kopi Nusantara hadir sejak 2018, menghadirkan pengalaman kopi dan kuliner nusantara dalam suasana modern yang hangat. Setiap cangkir kami racik dengan biji kopi pilihan dari petani lokal.</p>
+        <div class="flex gap-3">
+          <a href="#" class="w-9 h-9 rounded-full bg-cream/10 flex items-center justify-center text-cream/50 text-sm hover:bg-gold/20 hover:text-gold transition-colors">📷</a>
+          <a href="#" class="w-9 h-9 rounded-full bg-cream/10 flex items-center justify-center text-cream/50 text-sm hover:bg-gold/20 hover:text-gold transition-colors">💬</a>
+          <a href="#" class="w-9 h-9 rounded-full bg-cream/10 flex items-center justify-center text-cream/50 text-sm hover:bg-gold/20 hover:text-gold transition-colors">🎵</a>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-serif text-gold text-xl mb-4">Kontak</h3>
+        <div class="flex flex-col gap-3.5 text-sm text-cream/45">
+          <p class="flex items-start gap-2.5"><span class="text-gold mt-0.5 shrink-0">📍</span><span>Jl. Pahlawan No. 12, Kel. Pekunden, Kec. Semarang Tengah, Kota Semarang 50134</span></p>
+          <p class="flex items-center gap-2.5"><span class="text-gold shrink-0">📞</span><span>(024) 555-0198</span></p>
+          <p class="flex items-center gap-2.5"><span class="text-gold shrink-0">📧</span><span>halo@kopinusantara.id</span></p>
+          <p class="flex items-center gap-2.5"><span class="text-gold shrink-0">🕐</span><span>Senin – Minggu: 08.00 – 22.00 WIB</span></p>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-serif text-gold text-xl mb-4">Lokasi</h3>
+        <a href="https://maps.google.com/?q=Jl+Pahlawan+No+12+Semarang+Tengah" target="_blank" rel="noopener" class="block rounded-lg overflow-hidden border border-cream/10 hover:border-gold/40 transition-colors mb-2.5">
+          <iframe src="https://maps.google.com/maps?q=Jl+Pahlawan+No+12+Semarang+Tengah&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="180" style="border:0;pointer-events:none" loading="lazy" allowfullscreen></iframe>
+        </a>
+        <a href="https://maps.google.com/?q=Jl+Pahlawan+No+12+Semarang+Tengah" target="_blank" rel="noopener" class="text-gold text-xs tracking-wider uppercase font-semibold hover:underline">Buka di Google Maps →</a>
+      </div>
     </div>
+    <div class="border-t border-cream/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-cream/25 text-xs">
+      <span>© 2025 Kopi Nusantara. Semua hak dilindungi.</span>
+      <span>Dibuat dengan ☕ di Semarang</span>
+    </div>
+  </div>
+</footer>
 
-    <!--IMAGE-->
-    <div class="w-[45%]">
-        <img src="kopi.webp" class="rounded-lg">
-    </div> 
-
+<!-- ======== LOGIN MODAL ======== -->
+<div id="login-modal" class="fixed inset-0 bg-espresso/70 backdrop-blur-sm z-[100] items-center justify-center p-4 hidden">
+  <div class="bg-foam rounded-xl max-w-[420px] w-full max-h-[90vh] overflow-y-auto animate-slideUp shadow-[0_25px_60px_rgba(0,0,0,.3)]">
+    <div class="p-8 text-center">
+      <div class="w-14 h-14 rounded-full bg-gold/15 flex items-center justify-center mx-auto mb-4"><span class="text-2xl">👤</span></div>
+      <h3 class="font-serif text-2xl text-coffee mb-1">Masuk / Daftar</h3>
+      <p class="text-latte text-sm mb-6">Login wajib untuk melakukan reservasi meja.</p>
+      <div class="flex flex-col gap-3 text-left">
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">Nama Lengkap</label><input type="text" id="login-name" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none" placeholder="Nama Anda"></div>
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">Email</label><input type="email" id="login-email" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none" placeholder="email@contoh.com"></div>
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">No. HP</label><input type="tel" id="login-phone" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none" placeholder="08xxxxxxxxxx"></div>
+        <div><label class="block text-[0.68rem] tracking-[0.12em] uppercase text-latte font-semibold mb-1.5">Password</label><input type="password" id="login-pass" class="w-full px-4 py-3 border-[1.5px] border-coffee/12 rounded-lg text-sm text-coffee bg-[#FDFBF7] transition-colors focus:border-gold focus:ring-[3px] focus:ring-gold/15 focus:outline-none" placeholder="Minimal 6 karakter"></div>
+      </div>
+      <div id="login-error" class="hidden mt-3 text-terracotta text-xs text-center"></div>
+      <button onclick="doLogin()" class="w-full mt-5 bg-gold text-espresso font-sans font-bold text-[0.72rem] tracking-[0.12em] uppercase py-3.5 rounded-lg border-none cursor-pointer transition-all hover:bg-cream hover:-translate-y-0.5">Masuk</button>
+      <button onclick="closeLogin()" class="mt-3 text-latte text-xs hover:text-coffee cursor-pointer bg-transparent border-none font-sans">Batal</button>
+    </div>
+  </div>
 </div>
 
-<!--STORY-->
-<div class="px-16 py-16 bg-white">
-
-    <!--TITLE-->
-    <h2 class="text-3xl font-bold text-green-800 mb-10">
-        Our story
-    </h2>
-    <div class="flex items-center gap-12%">
-
-        <!--IMAGE-->
-        <div class="w-[400px]">
-            <img src="story.png.webp"class="rounded-2xl">
-
-        </div>
-        <!--TEXT-->
-        <div class="w-[45%] text-amber-800 leading-7">
-
-            <p class="mb-5">
-                Didirikan pada tahun 2000,CAFECOK hadir sebagai kafe yang berkomitmen menghadirkan kopi spesial berkualitas terbaik 
-                bagi para pelanggan. Terinspirasi dari semanagat pertumbuhan dan keberlanjutan, CAFECOK ingin terus
-                berkembang dengan kuat, memberikan nilai positif, serta menciptakan suasana hidup disetiap komunitas yang kami layani
-            </p>
-
-            <p>
-                Didukung oleh pengalaman dan jaringan yang terus berkembang, CAFECOK memanfaatkan teknologi terkini dalam setiap proses
-                penyajian kopi, mulai dari pemilihan peralatan hingga pemilihan biji kopi. Biji kopi kami dipilih langsung dari petani terbaik.
-            </p>
-            <button class="mt-5 px-6 py-2 bg-green-800 text-white rounded-full hover:bg-green-900">
-                Selengkapnya
-            </button>
-        </div>
+<!-- ======== MENU DETAIL MODAL ======== -->
+<div id="menu-modal" class="fixed inset-0 bg-espresso/70 backdrop-blur-sm z-[100] items-center justify-center p-4 hidden" onclick="closeMenuModal(event)">
+  <div class="bg-foam rounded-xl max-w-[520px] w-full max-h-[90vh] overflow-y-auto animate-slideUp shadow-[0_25px_60px_rgba(0,0,0,.3)]">
+    <img id="modal-img" src="" alt="" class="w-full h-52 object-cover block">
+    <div class="p-6">
+      <div class="flex justify-between items-start mb-2">
+        <h3 id="modal-name" class="font-serif text-xl text-coffee"></h3>
+        <span id="modal-price" class="text-gold font-bold text-base whitespace-nowrap ml-4"></span>
+      </div>
+      <p id="modal-desc" class="text-latte text-sm leading-relaxed mb-4"></p>
+      <div class="border-t border-coffee/8 pt-4 mb-4">
+        <h4 class="text-[0.68rem] tracking-[0.15em] uppercase text-gold font-semibold mb-2">📖 Sejarah &amp; Asal-Usul</h4>
+        <p id="modal-history" class="text-latte text-sm leading-relaxed"></p>
+      </div>
+      <div class="border-t border-coffee/8 pt-4 mb-5">
+        <h4 class="text-[0.68rem] tracking-[0.15em] uppercase text-gold font-semibold mb-2">🧾 Bahan-Bahan</h4>
+        <div id="modal-ingredients" class="flex flex-wrap gap-1"></div>
+      </div>
+      <button onclick="addFromModal()" class="w-full bg-coffee text-cream font-sans font-semibold text-[0.72rem] tracking-[0.12em] uppercase py-3 rounded-lg border-none cursor-pointer transition-all hover:bg-latte hover:-translate-y-0.5">+ Tambah ke Pesanan</button>
     </div>
+  </div>
 </div>
 
-    </div>
+<!-- JS Files -->
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/floor.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/payment.js"></script>
+<script src="js/reservasi.js"></script>
+<script src="js/dinein.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
